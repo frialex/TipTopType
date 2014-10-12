@@ -1,0 +1,7 @@
+article { border: 1px solid lightgrey; }
+
+.word { display: inline-block; margin-left: 10px; }
+
+.word.current { color: blue; }
+
+.disabled { display: none; };
