@@ -26,6 +26,26 @@ function clientInit(){
 
     requestAnimationFrame(mainLoop);
 
+    //answer.addEventListener('input', pushInput);
+    answer.onkeydown = pushInput; //doesn't capture shift
+    //answer.onkeyup = pushInput;
+
+}
+
+var inputQueue = [];
+function pushInput(kpe){
+    var keyCode = kpe.keyCode;
+    console.log("Receive keyCode: " + keyCode);
+    if( keyCode == 8) {
+        inputQueue.pop();
+    }
+    if( keyCode >= 65 ){
+        var key = String.fromCharCode(keyCode);
+        if(!kpe.shiftKey)
+            key = key.toLowerCase();
+        inputQueue.push(key);
+        console.log(inputQueue);
+    }
 }
 
 function mainLoop(time){
@@ -33,11 +53,32 @@ function mainLoop(time){
 
     check(curword, answer);
 
-    console.log('next: ' + next);
+    highlightMatched(curword, answer);
+
+    //console.log('next: ' + next);
 
     next ? requestAnimationFrame(mainLoop)
          : console.log('game over');
 
+}
+
+//                          DOM     DOM
+function highlightMatched(curword, answer){
+     input = inputQueue.slice(0, inputQueue.length);
+     wordlist = Array.prototype.slice.call( curword.children,
+                                            0,
+                                            answer.value.length);
+    //FUCK!!! now the cases matter!!! fuckkk
+        //TODO: back to pushInput and check for case
+    wordlist.forEach(function(c, i) {
+        if(c.classList.contains(input[i])){
+            c.classList.add('complete');
+            //in case user backspaced
+            c.classList.remove('wrong');
+        } else {
+            c.classList.add('wrong');
+        }
+    });
 }
 
 function check(word, answer){
@@ -46,7 +87,9 @@ function check(word, answer){
 
         console.log('Good Typing!');
         curword.classList.remove('current');
+        curword.classList.add('complete');
         answer.value = '';
+        inputQueue.splice(0, inputQueue.length);
 
         next = curword.nextSibling;
         curword = next;

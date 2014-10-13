@@ -11,6 +11,12 @@ article { border: 1px solid lightgrey; }
     font-size: 2em;
     font-weight: 700;
 }
+.word.complete {
+    text-decoration: line-through;
+}
+span.complete { color: green; }
+span.wrong { color: red; }
+
 
 .disabled { display: none; }
 
