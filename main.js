@@ -29,7 +29,7 @@ app.use(function(req,res,next){
     next(err);
 });
 
-var port = process.env.PORT || 3000;
+var port = process.env.port || 3000;
 var server = app.listen(port, function(){
     console.log('Listening on port %d', server.address().port);
     util.debug(server);
