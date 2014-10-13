@@ -14,8 +14,11 @@ article { border: 1px solid lightgrey; }
 .word.complete {
     text-decoration: line-through;
 }
-span.complete { color: green; }
-span.wrong { color: red; }
+.word.current > span {
+    transition: color 200ms;
+}
+span.complete { color: #00FF00; }
+span.wrong { color: #FF0000; }
 
 
 .disabled { display: none; }
