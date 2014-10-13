@@ -3,6 +3,8 @@ var app = express();
 var util = require('util')
 var path = require('path');
 
+var lorem = require('lorem-ipsum');
+
 app.set('views', './views');
 app.set('view engine', 'jade');
 
@@ -19,8 +21,10 @@ app.get('/request', function(req, res){
 });
 
 app.get('/', function(req, res){
-    var data = {};
-    res.render('tiptoptypest',data)
+    var data = lorem({ count: 2, units: 'sentences' }).split(' ');
+    console.log(data);
+    var out = { data: data };
+    res.render('tiptoptypest',out)
 });
 
 app.use(function(req,res,next){

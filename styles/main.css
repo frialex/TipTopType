@@ -1,7 +1,21 @@
+body { text-align: center; }
 article { border: 1px solid lightgrey; }
 
-.word { display: inline-block; margin-left: 10px; }
+.word {
+    display: inline-block;
+    margin-left: 10px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+}
+.word.current {
+    font-size: 2em;
+    font-weight: 700;
+}
 
-.word.current { color: blue; }
+.disabled { display: none; }
 
-.disabled { display: none; };
+#answer {
+    height: 40px;
+    margin-top: 10px;
+    font-size: 2em;
+}
