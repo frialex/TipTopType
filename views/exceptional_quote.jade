@@ -1,9 +1,11 @@
 extends ./tiptoptypest.jade
 
 block quote
-  article(class='exceptional')
+  article(class= type + ' exceptional')
     each word in said
       p(class='word')
         - var n=0;
           while n < word.length
             span(class=word[n])= word[n++]
+
+  p(class='speaker')= by

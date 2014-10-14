@@ -20,14 +20,23 @@ app.get('/request', function(req, res){
     res.send(util.inspect(req));
 });
 
-app.get('/random-quote', function(req, res){
-    var data = lorem({ count: 2, units: 'sentences' }).split(' ');
-    console.log(data);
-    var out = { data: data };
-    res.render('random_quote',out)
+
+
+app.get('/dirty',function(req, res){
+    var dirtone = "He released my hands and I was now grinding up at his big cock moaning hard as I was cumming over and over. I couldn't help myself I screamed out 'fuck me daddy fuck me'!"
+
+    var dirttwo = "That got him going real good he began pounding my wet pussy hard, fast and deep. We were both moaning loud and I was shaking from cumming so much, I could tell he was close to cuming by his facial expression and how his cock was throbbing deep in me.";
+
+    var dirty = { said: dirtone + dirttwo,
+                    by: 'Amber',
+                    type: 'sexy'
+                }
+
+
+    res.render('exceptional_quote', dirty);
 });
 
-app.get('/quote', function(req, res, next){
+app.get('/', function(req, res, next){
     var quote ={ said: "Be the change that you wish to see in the world.",
                     by: "Mahatma Gandhi",
                     type: 'bold'};
@@ -36,12 +45,13 @@ app.get('/quote', function(req, res, next){
     res.render('exceptional_quote', quote);
 });
 
-app.use(function FourOFour(req,res,next){
-    console.log('404 not found function');
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+app.get(function FourOFour(req, res, next){
+    var data = lorem({ count: 2, units: 'sentences' }).split(' ');
+    console.log(data);
+    var out = { data: data };
+    res.render('random_quote',out)
 });
+
 
 var port = process.env.port || 3000;
 var server = app.listen(port, function(){
