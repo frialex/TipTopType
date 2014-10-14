@@ -20,14 +20,24 @@ app.get('/request', function(req, res){
     res.send(util.inspect(req));
 });
 
-app.get('/', function(req, res){
+app.get('/random-quote', function(req, res){
     var data = lorem({ count: 2, units: 'sentences' }).split(' ');
     console.log(data);
     var out = { data: data };
-    res.render('tiptoptypest',out)
+    res.render('random_quote',out)
 });
 
-app.use(function(req,res,next){
+app.get('/quote', function(req, res, next){
+    var quote ={ said: "Be the change that you wish to see in the world.",
+                    by: "Mahatma Gandhi",
+                    type: 'bold'};
+
+    quote.said = quote.said.split(' ');
+    res.render('exceptional_quote', quote);
+});
+
+app.use(function FourOFour(req,res,next){
+    console.log('404 not found function');
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
@@ -35,8 +45,8 @@ app.use(function(req,res,next){
 
 var port = process.env.port || 3000;
 var server = app.listen(port, function(){
+    console.log(server);
     console.log('Listening on port %d', server.address().port);
-    util.debug(server);
 });
 
 //app.use(function(err, req, res, next){

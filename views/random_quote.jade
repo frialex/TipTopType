@@ -1,0 +1,9 @@
+extends ./tiptoptypest.jade
+
+block quote
+    article
+        each word in data
+            p(class='word')
+                - var n = 0
+                while n < word.length
+                    span(class=word[n])= word[n++]

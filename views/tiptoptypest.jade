@@ -1,16 +1,12 @@
 html
   head
     title 'tiptoptypest'
+    script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js")
     script(src='/scripts/client.js')
     link(rel='stylesheet', href='/styles/main.css', type='text/css')
     link(href='http://fonts.googleapis.com/css?family=Oswald:300,700' rel='stylesheet' type='text/css')
   body
-    article
-        each word in data
-            p(class='word')
-                - var n = 0
-                while n < word.length
-                    span(class=word[n])= word[n++]
-
+    block quote
+      p= "No Quotes :("
     input#answer(autofocus, type='text')
     button#another.disabled

@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function(e){
 
 });
 
+var round = 1;
 function clientInit(){
 
     //cache a list of p tags from article
@@ -22,7 +23,15 @@ function clientInit(){
     curword = words[0];
     curword.classList.add('current');
 
-    answer.autocomplete = curword.innerText;
+    var exceptional = document.getElementsByClassName('exceptional');
+    if(exceptional.length){
+        var fontsize = 1 + round*50/100;
+        exceptional[0].style.fontSize = fontsize + 'em';
+        exceptional[0].dataset.round = round;
+        if(round > 5 ) {
+            exceptional[0].dataset.font = 'large';
+        }
+    }
 
     requestAnimationFrame(mainLoop);
 
@@ -48,28 +57,32 @@ function pushInput(kpe){
     }
 }
 
+function roundOver(){
+    round++;
+
+    $('.complete').removeClass('complete');
+
+    clientInit();
+}
 function mainLoop(time){
-    var next = curword;
 
-    check(curword, answer);
+    var keepGoing = check(curword, answer);
 
-    highlightMatched(curword, answer);
-
-    //console.log('next: ' + next);
-
-    next ? requestAnimationFrame(mainLoop)
-         : console.log('game over');
+    keepGoing   ? requestAnimationFrame(mainLoop)
+                : roundOver();
 
 }
 
 //                          DOM     DOM
 function highlightMatched(curword, answer){
+//TODO: these are global to ease in debug.. scope to local
      input = inputQueue.slice(0, inputQueue.length);
-     wordlist = Array.prototype.slice.call( curword.children,
-                                            0,
-                                            answer.value.length);
-    //FUCK!!! now the cases matter!!! fuckkk
-        //TODO: back to pushInput and check for case
+     var inputLength = answer.value.length;
+     wordlist = Array
+                .prototype
+                .slice
+                .call( curword.children, 0, inputLength );
+
     wordlist.forEach(function(c, i) {
         if(c.classList.contains(input[i])){
             c.classList.add('complete');
@@ -78,6 +91,15 @@ function highlightMatched(curword, answer){
         } else {
             c.classList.add('wrong');
         }
+    });
+
+    backspaced = Array
+                .prototype
+                .slice
+                .call( curword.children, inputLength, curword.childElementCount);
+    backspaced.forEach(function(c, i){
+        c.classList.remove('wrong');
+        c.classList.remove('complete');
     });
 }
 
@@ -91,14 +113,20 @@ function check(word, answer){
         answer.value = '';
         inputQueue.splice(0, inputQueue.length);
 
+        //becaue highlight wont run for this word
+        curword.lastChild.classList.add('complete');
+
         next = curword.nextSibling;
-        curword = next;
-        curword ? curword.classList.add('current')
-                : processNext = false;
+        if(next) {
+            curword = next;
+            curword.classList.add('current')
+        } else {
+            processNext = false;
+        }
 
     } else {
         //show error
-
+        highlightMatched(word, answer);
     }
 
     return processNext;

@@ -1,5 +1,4 @@
 body { text-align: center; }
-article { border: 1px solid lightgrey; }
 
 .word {
     display: inline-block;
@@ -28,3 +27,7 @@ span.wrong { color: #FF0000; }
     margin-top: 10px;
     font-size: 2em;
 }
+
+.exceptional[data-font=large] .word { display: none; }
+.exceptional[data-font=large] .current { display: block; }
+
